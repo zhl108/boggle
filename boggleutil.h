@@ -1,4 +1,5 @@
 
+//boggleutil.h
 
 #ifndef BOGGLEUTIL_H
 #define BOGGLEUTIL_H

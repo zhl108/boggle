@@ -1,3 +1,6 @@
+
+//mainwindow.h
+
 /**
  *  CSE 100 C++ Boggle
  *  Authors: Vivek Ramavajjala, Paul Kube
