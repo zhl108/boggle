@@ -43,7 +43,7 @@ bool BogglePlayer::isInLexicon(const string& word_to_check) {
 /**
  * check if the word can be found on the board builded by setBoard() by acyclic simple path,
  * if FOUND, return a vector of int specifying the location of dice that can be used to form
- * the word(in the order to spell it). Empty vector means: 1. NOT FOUNT; 2. board not set up yet
+ * the word(in the order to spell it). Empty vector means: 1. NOT FOUND; 2. board not set up yet
  * ex. if one of the letter is in Row R and C, it will be represented as R * Width + C
  */
 vector<int> BogglePlayer::isOnBoard(const string& word) {

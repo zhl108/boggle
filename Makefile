@@ -17,3 +17,6 @@ clean:
 	rm -f bogtest  *.o core* gmon.out
 
 
+temp:
+	g++ -g boggleutil.h boggleutil.cpp testMain.cpp
+	./a.out

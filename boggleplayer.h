@@ -9,8 +9,10 @@ using namespace std;
 
 class BogglePlayer : public BaseBogglePlayer {
   public:
+  //create a multiway tries and insert all string into it
   void buildLexicon(const set<string>& word_list);
   
+  //initialize the internal 2d array
   void setBoard(unsigned int rows, unsigned int cols, string** diceArray); 
 
   bool getAllValidWords(unsigned int minimum_word_length, set<string>* words);
@@ -28,6 +30,7 @@ class BogglePlayer : public BaseBogglePlayer {
   }
 
   private:
+  Board* b;		// data structure to hold the board
 };
 
 #endif
