@@ -5,6 +5,7 @@
 #define BOGGLEPLAYER_H
 #include "baseboggleplayer.h"
 #include "boggleutil.h"
+#include <stack>
 using namespace std;
 
 class BogglePlayer : public BaseBogglePlayer {
@@ -30,7 +31,9 @@ class BogglePlayer : public BaseBogglePlayer {
   }
 
   private:
-  Board* b;		// data structure to hold the board
+  Board* b;												// data structure to hold the board
+  //vector<int> dfs(Cell* c, const string& word);		// helper function for isOnBoard
+  bool dfs(Cell* c, const string& word, int& pos, vector<int>& vec);
 };
 
 #endif

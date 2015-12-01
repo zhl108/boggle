@@ -22,6 +22,7 @@ void BogglePlayer::buildLexicon(const set<string>& word_list){
  *		 2. 
  */
 void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceArray) {
+	b = new Board(rows, cols, diceArray);
 }
 
 /**
@@ -48,9 +49,69 @@ bool BogglePlayer::isInLexicon(const string& word_to_check) {
  */
 vector<int> BogglePlayer::isOnBoard(const string& word) {
          vector<int> result;
+		 int pos=0;
+
+		 if(b==0)
+			 return result;								//board not set up yet
+
+		 /*
+		 for(int i=0;i<b->getList().size();i++)
+		 {
+			 b->resetVisit();							//toggle all Cells to be unvisited
+			 result = dfs(b->getList()[i], word);
+			 if(result.size() != 0)
+				 break;
+		 }
+		 */
+		 for(int i=0;i<b->getList().size();i++)
+		 {
+			 if(dfs(b->getList()[i], word, pos, result))
+				 break;
+
+			 b->resetVisit();							//toggle all Cells to be unvisited
+			 pos=0;
+			 result.clear();
+
+		 }
          return result;
 }
 
+bool BogglePlayer::dfs(Cell* c, const string& word, int& pos, vector<int>& vec){
+
+	string sub_word;
+	string cString = c->getString();
+	int cSize = cString.length();
+	if(cSize <= word.length()-pos)
+		sub_word = word.substr(pos, cSize);
+	else
+		sub_word = word.substr(pos);
+
+	if(cString != sub_word)
+		return false;
+	//above is to check if the dice match the word
+
+	//else match, update path and word mark
+	c->markVisit();
+	pos+=cSize;
+	vec.push_back(c->getIndex());
+
+	if(pos == word.length())
+		return true;
+
+	for(int i=0;i<c->nSize();i++)
+	{
+		if(!c->getNeighbor()[i]->isVisit())				//unvisited neighbor
+		{	
+			if(dfs(c->getNeighbor()[i], word, pos, vec))
+				return true;
+		}
+	}
+
+	vec.pop_back();
+	pos-=cSize;
+	c->reset();
+	return false;
+}
 
 /**
  * use the setBoard() in this function to customize the arrayDice[][], note that the new_board
@@ -59,3 +120,56 @@ vector<int> BogglePlayer::isOnBoard(const string& word) {
 void BogglePlayer::getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols) {
 }
 
+/* fail stack method
+vector<int> BogglePlayer::dfs(Cell* c, const string& word){
+	vector<int> path;
+	int pos=0;									//mark pointed to the next char should be read in word
+	stack<Cell*> st;
+	Cell* top;
+
+	string cString;
+	int cSize;
+	string sub_word;
+
+	st.push(c);
+	while(!st.empty())
+	{
+		top = st.top();
+		st.pop();
+
+		if(!top->isVisit())
+		{
+			cString = top->getString();
+			cSize = cString.length();
+			if(cSize <= word.length()-pos)
+				sub_word = word.substr(pos, cSize);
+			else
+				sub_word = word.substr(pos);
+
+			if(cString != sub_word)
+				continue;											//if cell string dont match the word, stop diving
+
+			//if(pos == word.length())
+				//break;
+
+			path.push_back(top->getIndex());						//record the index of cell in the path list
+			
+			pos+=cSize;
+			if(pos == word.length())								//all word char matched
+				break;
+
+			top->markVisit();										//mark top as visited
+			for(int i=0;i<top->nSize();i++)
+			{
+				st.push(top->getNeighbor()[i]);						//add top's neighbors which satisfy the correct path to the stack
+					
+			}
+		}
+	}
+
+	if(pos != word.length())
+		path.clear();
+
+	return path;
+}
+*/

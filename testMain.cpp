@@ -9,6 +9,7 @@
 #include<iostream>
 #include<vector>
 #include"boggleutil.h"
+#include"boggleplayer.h"
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -119,9 +120,33 @@ int main(int argc, char *argv[])
 		cout << endl;
 	}
 	*/
+	cout << "makeEdge() test pass! the graph has been completely builded!" << endl << endl;
 	delete b;
-	cout << "makeEdge() test pass! the graph has been completely builded!" << endl;
-	cout << "" << endl;
+
+	cout << "--------------- BogglePlayer ---------------" << endl;
+	cout << "Testig isOnBoard() ..." << endl;
+	BogglePlayer* bp = new BogglePlayer();
+	bp->setBoard(2,3,s);
+
+	string input = "fivefourthreeone";
+	vector<int> outcome = bp->isOnBoard(input);
+	
+	cout << "Path: " << endl;
+	for(int i=0;i<outcome.size();i++)
+		cout << outcome[i] << " -> ";
+
+	cout << endl << "isOnBoard() test pass!" << endl << endl;
+	delete bp;
+
+	/* test substr()
+	string aa = "yeti";
+	string cc = "yetimango";
+	string bb = cc.substr(0,4);
+	cout << aa << endl;
+    cout << bb << endl;
+   	cout << (aa!=bb) << endl;
+	*/
+
 	cout << "--------------- Tree ---------------" << endl;
 
     return 0;

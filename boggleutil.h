@@ -31,6 +31,7 @@ class Cell
 		int getIndex();					// return the index of cell
 		bool isVisit();					// return visit status of the cell
 		void reset();					// toggle the visit back to false
+		void markVisit();
 
 		~Cell();
 };
@@ -47,8 +48,16 @@ class Board
 		void print();												// print the adjacency list, for test only
 		void makeEdge();											// associate Cells on the Board
 		vector<Cell*> getList();									// return the adjacency list of the graph
+		void resetVisit();											// toggle all Cells of the graph back to unvisited
 		~Board();
 };
 
+/** Ternary Trie to hold lexicon dictironary */
+class Tree
+{
+	private:
+
+	public:
+};
 
 #endif

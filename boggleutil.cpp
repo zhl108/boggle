@@ -47,6 +47,8 @@ bool Cell::isVisit(){ return visit;}
 
 void Cell::reset(){ visit = false;}	
 
+void Cell::markVisit(){ visit = true;}
+
 Cell::~Cell(){ neighbors.clear();}		//TODO: dont know if I should clear the vector here
 
 //------------------------------ Board -------------------------------
@@ -72,6 +74,11 @@ void Board::print(){
 }
 
 vector<Cell*> Board::getList(){ return adjList;}
+
+void Board::resetVisit(){
+	for(int i=0;i<adjList.size();i++)
+		adjList[i]->reset();	
+}
 
 void Board::makeEdge(){
 	int size = row * col;
