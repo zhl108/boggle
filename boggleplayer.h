@@ -24,14 +24,15 @@ class BogglePlayer : public BaseBogglePlayer {
 
   void getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols);
 
-  BogglePlayer() {
-  }
+  BogglePlayer();
   
-  ~BogglePlayer() {
-  }
+  ~BogglePlayer(); 
 
   private:
   Board* b;												// data structure to hold the board
+  Trie* tr;												// data structure to hold the dictionary
+  bool board_up;
+  bool trie_up;
   //vector<int> dfs(Cell* c, const string& word);		// helper function for isOnBoard
   bool dfs(Cell* c, const string& word, int& pos, vector<int>& vec);
 };

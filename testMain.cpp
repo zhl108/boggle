@@ -148,7 +148,27 @@ int main(int argc, char *argv[])
 	*/
 
 	cout << "--------------- Tree ---------------" << endl;
+	cout << "Testing insert ..." << endl;
+	Trie* tree = new Trie();
+	string t1 = "ab", t2 = "zxy";
+	tree->insert(t1);
+	tree->insert(t2);
 
+	Node* ro = tree->getRoot();
+	if(!ro->children['a']->children['b']->end || !ro->children['z']->children['x']->children['y']->end)
+	{
+		cout << "insert fail"<< endl;
+		return -1;
+	}
+	cout << "insert test pass!\nTesing find() ..." << endl;
+	if(!tree->find(t1) || !tree->find(t2))
+	{	
+		cout << "find fail" << endl;
+		return -1;
+	}
+	cout << "find test pass!" << endl << endl;
+
+	delete tree;
     return 0;
 }
 

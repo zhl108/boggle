@@ -8,12 +8,32 @@
 // 1. hold the dictionary
 // 2. hold the board
 
+
+BogglePlayer::BogglePlayer(){
+	board_up = false;
+	trie_up = false;
+}
+
+BogglePlayer::~BogglePlayer(){
+	if(trie_up)
+		delete tr;
+	if(board_up)
+		delete b;
+}
+
 /**
  * takes in the official lexicon and loads the words into a efficient data structure (multiway tries)
  * as the interal field of boggleplayer. the tries is used for maintain the BogglePlayer's lexicon,
  * and should be implemented in boggleutil.h/cpp
  */
 void BogglePlayer::buildLexicon(const set<string>& word_list){
+	tr = new Trie();
+	for(set<string>::iterator i=word_list.begin(); i!=word_list.end(); i++)
+	{
+		string s = *i;
+		tr->insert(s);
+	}
+	trie_up = true;
 }
 
 /**
@@ -23,6 +43,7 @@ void BogglePlayer::buildLexicon(const set<string>& word_list){
  */
 void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceArray) {
 	b = new Board(rows, cols, diceArray);
+	board_up = true;
 }
 
 /**
@@ -38,7 +59,8 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 
 /** check if word_to_check is in the dictionary builded by buildLexicon() */
 bool BogglePlayer::isInLexicon(const string& word_to_check) {
-        return true;
+		string str = word_to_check;
+        return tr->find(str);
 }
 
 /**
@@ -120,56 +142,3 @@ bool BogglePlayer::dfs(Cell* c, const string& word, int& pos, vector<int>& vec){
 void BogglePlayer::getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols) {
 }
 
-/* fail stack method
-vector<int> BogglePlayer::dfs(Cell* c, const string& word){
-	vector<int> path;
-	int pos=0;									//mark pointed to the next char should be read in word
-	stack<Cell*> st;
-	Cell* top;
-
-	string cString;
-	int cSize;
-	string sub_word;
-
-	st.push(c);
-	while(!st.empty())
-	{
-		top = st.top();
-		st.pop();
-
-		if(!top->isVisit())
-		{
-			cString = top->getString();
-			cSize = cString.length();
-			if(cSize <= word.length()-pos)
-				sub_word = word.substr(pos, cSize);
-			else
-				sub_word = word.substr(pos);
-
-			if(cString != sub_word)
-				continue;											//if cell string dont match the word, stop diving
-
-			//if(pos == word.length())
-				//break;
-
-			path.push_back(top->getIndex());						//record the index of cell in the path list
-			
-			pos+=cSize;
-			if(pos == word.length())								//all word char matched
-				break;
-
-			top->markVisit();										//mark top as visited
-			for(int i=0;i<top->nSize();i++)
-			{
-				st.push(top->getNeighbor()[i]);						//add top's neighbors which satisfy the correct path to the stack
-					
-			}
-		}
-	}
-
-	if(pos != word.length())
-		path.clear();
-
-	return path;
-}
-*/

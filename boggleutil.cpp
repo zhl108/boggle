@@ -60,6 +60,8 @@ Board::Board(unsigned int row, unsigned int col, string** s){
 		for(unsigned int c=0;c<col;c++)
 		{
 			unsigned int indx = col*r+c;
+			//convert the string s[r][c] to lower case
+			std::transform(s[r][c].begin(), s[r][c].end(), s[r][c].begin(), ::tolower);
 			Cell* cell = new Cell(indx, s[r][c]);
 			adjList.push_back(cell);					// add the new cell to the graph adjacency list
 		}
@@ -167,3 +169,70 @@ Board::~Board(){
 	for(int i=0;i<adjList.size();i++)
 		delete adjList[i];
 }
+
+
+
+/* ---------------------- Tree ------------------------------ */
+
+Trie::Trie(){
+	root = new Node();
+	size=1;
+}
+
+Trie::~Trie(){
+	if(size>0)
+		post(root);
+}
+
+void Trie::post(Node* n){
+	for(map<char,Node*>::iterator i=n->children.begin();i!=n->children.end();i++)
+		post(i->second);
+	
+	delete n;
+	size--;
+}
+
+void Trie::insert (string &word){
+	//start with the root
+	Node* current = root;
+	for(int i=0;i<word.length();i++)									//for every letter of the word
+	{
+		char c = word[i];
+		if(current->children.find(c) == current->children.end())		//character not exist in the children map
+		{
+			Node* n = new Node();
+			current->children.insert(std::make_pair(c,n));
+			current = current->children[c];
+			if(i == word.length()-1)									//check if the word has been run out
+				current->end = true;
+
+			size++;
+		}
+		else															// character already exist in the children map
+		{
+			current = current->children[c];
+			if(i == word.length()-1)
+				current->end = true;
+		}
+	}
+}
+
+bool Trie::find (string &word){
+	Node* current = root;
+
+	for(int i=0;i<word.length();i++)
+	{
+		char c = word[i];
+
+		if(current->children.find(c) == current->children.end())		//character not found in the children map
+			return false;
+		else															// character already exist in the children map
+			current = current->children[c];
+
+		if(i == word.length()-1)
+			return current->end;
+	}
+	return false;
+}
+
+Node* Trie::getRoot(){ return root;}

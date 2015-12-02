@@ -5,6 +5,7 @@
 #define BOGGLEUTIL_H
 #include<vector>
 #include<string>
+#include<map>
 
 using namespace std;
 
@@ -52,12 +53,26 @@ class Board
 		~Board();
 };
 
-/** Ternary Trie to hold lexicon dictironary */
-class Tree
-{
-	private:
-
+class Node{
 	public:
+		map <char, Node*> children;
+		bool end;						// indicate if the node is the end of a word
+};
+
+/** MultiWay Trie to hold lexicon dictironary */
+class Trie{ 
+	private:
+		Node *root;
+		int size;
+	public:
+
+		Trie();
+		~Trie();
+
+		void insert (string &word);
+		bool find (string &word); 
+		Node* getRoot();		
+		void post(Node* n);
 };
 
 #endif
