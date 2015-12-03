@@ -2,6 +2,8 @@
 //boggleplayer.cpp
 
 #include "boggleplayer.h"
+#include<algorithm>
+using namespace std;
 
 // before implementing the functions below, note that
 // there will be two data structure in this class boggleplayer
@@ -31,6 +33,7 @@ void BogglePlayer::buildLexicon(const set<string>& word_list){
 	for(set<string>::iterator i=word_list.begin(); i!=word_list.end(); i++)
 	{
 		string s = *i;
+		transform(s.begin(), s.end(), s.begin(), ::tolower);
 		tr->insert(s);
 	}
 	trie_up = true;
@@ -111,7 +114,12 @@ string BogglePlayer::vecToString(vector<string> vec){
 
 /** check if word_to_check is in the dictionary builded by buildLexicon() */
 bool BogglePlayer::isInLexicon(const string& word_to_check) {
+		
+		if(!trie_up)
+			return false;
+
 		string str = word_to_check;
+		transform(str.begin(), str.end(), str.begin(), ::tolower);		
         return tr->find(str);
 }
 
@@ -122,11 +130,15 @@ bool BogglePlayer::isInLexicon(const string& word_to_check) {
  * ex. if one of the letter is in Row R and C, it will be represented as R * Width + C
  */
 vector<int> BogglePlayer::isOnBoard(const string& word) {
-         vector<int> result;
-		 unsigned int pos=0;
 
-		 if(b==0)
+         vector<int> result;
+		 if(!board_up)
 			 return result;								//board not set up yet
+
+		 unsigned int pos=0;
+		 string temp = word;
+
+		 transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
 
 		 /*
 		 for(int i=0;i<b->getList().size();i++)
@@ -139,7 +151,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word) {
 		 */
 		 for(unsigned int i=0;i<b->getList().size();i++)
 		 {
-			 if(dfs(b->getList()[i], word, pos, result))
+			 if(dfs(b->getList()[i], temp, pos, result))
 				 break;
 
 			 b->resetVisit();							//toggle all Cells to be unvisited
@@ -150,7 +162,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word) {
          return result;
 }
 
-bool BogglePlayer::dfs(Cell* c, const string& word, unsigned int& pos, vector<int>& vec){
+bool BogglePlayer::dfs(Cell* c, string& word, unsigned int& pos, vector<int>& vec){
 
 	string sub_word;
 	string cString = c->getString();

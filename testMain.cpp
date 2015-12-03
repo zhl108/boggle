@@ -126,16 +126,57 @@ int main(int argc, char *argv[])
 	cout << "--------------- BogglePlayer ---------------" << endl;
 	cout << "Testig isOnBoard() ..." << endl;
 	BogglePlayer* bp = new BogglePlayer();
+	string tmp = "aa";
+
+	if(bp->isOnBoard(tmp).size()!=0)
+	{	cout << "since board is not set up yet, vector size should be zero" << endl;
+		return -1;
+	}
+
 	bp->setBoard(2,3,s);
 
 	string input = "fivefourthreeone";
+	string input2 = "FIVEFOuRTHREEONE";
 	vector<int> outcome = bp->isOnBoard(input);
 	
 	cout << "Path: " << endl;
 	for(int i=0;i<outcome.size();i++)
 		cout << outcome[i] << " -> ";
 
-	cout << endl << "isOnBoard() test pass!" << endl << endl;
+	cout << endl;
+	vector<int> outcome2 = bp->isOnBoard(input2);
+	cout << "Path2 for upper case: " << endl;
+	for(int i=0;i<outcome2.size();i++)
+		cout << outcome2[i] << " -> ";
+	if(outcome2.size()==0)
+	{
+		cout << "isOnBoard has lower case error" << endl;
+		return -1;
+	}
+
+	cout << endl << "isOnBoard() test pass!\nTesting buildLexicon and isInLexicon" << endl;
+	
+	set<string> test_set;
+	test_set.insert("One");
+	test_set.insert("TwO");
+	test_set.insert("three");
+
+	bp->buildLexicon(test_set);
+	//if(!bp->isInLexicon("One") || !bp->isInLexicon("TwO") || !bp->isInLexicon("three") || !bp->isInLexicon("one"))
+	if(!bp->isInLexicon("one") || !bp->isInLexicon("One") || !bp->isInLexicon("two") || !bp->isInLexicon("THREE") || !bp->isInLexicon("thrEE"))
+	{
+		cout << "isInLexicon() fail" << endl;
+		return -1;
+	}
+	if(bp->isInLexicon("on") || bp->isInLexicon("Oneg") || bp->isInLexicon("On"))
+	{
+		cout << "isInLexicon() fail" << endl;
+		return -1;
+	}
+
+	cout << "isInLexicon Test pass" << endl << endl;
+
+
 	delete bp;
 
 	/* test substr()
@@ -146,6 +187,7 @@ int main(int argc, char *argv[])
     cout << bb << endl;
    	cout << (aa!=bb) << endl;
 	*/
+
 
 	cout << "--------------- Tree ---------------" << endl;
 	cout << "Testing insert ..." << endl;
@@ -178,6 +220,7 @@ int main(int argc, char *argv[])
 
 	delete tree;
 	cout << "--------------- my own test ---------------" << endl;
+	/* append for vecToString
 	vector<string> vec;
 	vec.push_back("one");
 	vec.push_back("two");
@@ -189,6 +232,9 @@ int main(int argc, char *argv[])
 	for(vector<string>::iterator it=vec.begin(); it != vec.end(); ++it)
 		ss.append(*it);
 	cout << ss << endl;
+	*/
+
+
 
     return 0;
 }

@@ -21,5 +21,6 @@ temp:
 	g++ -g boggleutil.h boggleutil.cpp testMain.cpp
 	./a.out
 temp2:
+	rm a.out
 	g++ -g boggleplayer.h boggleplayer.cpp boggleutil.h boggleutil.cpp testMain.cpp
 	./a.out
