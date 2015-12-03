@@ -8,6 +8,7 @@
 
 #include<iostream>
 #include<vector>
+#include<fstream>
 #include"boggleutil.h"
 #include"boggleplayer.h"
 using namespace std;
@@ -234,8 +235,96 @@ int main(int argc, char *argv[])
 	cout << ss << endl;
 	*/
 
+	ifstream infile("brd.txt");
+	ifstream lex("dic.txt");				//TODO:change back to lex.txt
+	ofstream outfile("out.txt");
+
+	if(!infile)
+	{
+		cout << "brd.txt not found" << endl;
+		return -1;
+	}
+	if(!lex)
+	{
+		cout << "lex.txt not found" << endl;
+		return -1;
+	}
+
+	unsigned int row, col;
+
+	infile >> row >> col;
+	cout << row << endl << col << endl;
+	
+	//2d array for board representation sss
+	string ** sss = new string*[row];
+	for(int i=0;i<row;++i)
+		sss[i] = new string[col];
+
+	cout << "board representation: " << endl;
+	for(int r=0;r<20;r++)
+	{
+		for(int c=0;c<23;c++)
+			infile >> sss[r][c];
+	}
+
+	for(int r=0;r<20;r++)
+	{
+		for(int c=0;c<23;c++)
+			cout << sss[r][c] << " ";
+		cout << endl;
+	}
+
+	set<string> dictionary;			//set to hold the words in dictionary, waiting to insert into tries
+	string temp_lex;
+	while(!lex.eof())
+	{
+		lex >> temp_lex;
+		dictionary.insert(temp_lex);
+	}
+
+	/*
+	for(set<string>::iterator it=dictionary.begin();it!=dictionary.end();++it)
+	{
+		outfile << *it << endl;
+	}
+	*/
+	
+	//void buildLexicon(const set<string>& word_list);
+  
+	//void setBoard(unsigned int rows, unsigned int cols, string** diceArray); 
+
+	//bool getAllValidWords(unsigned int minimum_word_length, set<string>* words);
+
+	BogglePlayer* ai = new BogglePlayer();
+
+	string str2[2][3] = {
+				{"a","b","c"},
+				{"d","e","f"}
+	};
+
+	string *s2[2] = {str2[0],str2[1]};	
+
+	//ai->setBoard(row, col, sss);
+	ai->setBoard(2, 3, s2);
+	ai->buildLexicon(dictionary);
+
+	//ai->tr
+	//cout << ai->b->getList().size()<< endl;
+	
+	set<string>* outSet;
+	unsigned int min = 2;
+	ai->getAllValidWords(min, outSet);
 
 
+
+
+
+
+	delete ai;
+
+	infile.close();
+	lex.close();
+	outfile.close();
     return 0;
 }
 

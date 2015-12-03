@@ -28,9 +28,10 @@ class BogglePlayer : public BaseBogglePlayer {
   
   ~BogglePlayer(); 
 
-  private:
+  //private:
   Board* b;												// data structure to hold the board
   Trie* tr;												// data structure to hold the dictionary
+  private:
   bool board_up;
   bool trie_up;
   //vector<int> dfs(Cell* c, const string& word);		// helper function for isOnBoard

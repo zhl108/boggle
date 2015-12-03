@@ -61,9 +61,6 @@ class Node{
 
 /** MultiWay Trie to hold lexicon dictironary */
 class Trie{ 
-	private:
-		Node *root;
-		int size;
 	public:
 
 		Trie();
@@ -74,6 +71,9 @@ class Trie{
 		bool isPrefix(string word);
 		Node* getRoot();		
 		void post(Node* n);
+	//private:
+		Node *root;
+		int size;
 };
 
 #endif

@@ -2,7 +2,9 @@
 //boggleplayer.cpp
 
 #include "boggleplayer.h"
+#include<iostream>
 #include<algorithm>
+#include<set>
 using namespace std;
 
 // before implementing the functions below, note that
@@ -57,6 +59,9 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
  * 3. from lexicon; 4. meet min length
  */
 bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words) {
+		//for test only
+		int count=0;
+	
 		//return false if either lexicon or the board is not set up yet
 		if(!board_up || !trie_up)
 			return false;
@@ -70,6 +75,8 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 			current_length=0;			//reset before starting from each node on the board
 			path.clear();
 			b->resetVisit();
+			count+=1;
+			cout << count << " so far so good!" << endl;
 			search(b->getList()[i], words, minimum_word_length, current_length, path);
 		}
 
@@ -77,6 +84,9 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 }
 
 void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_word_length, unsigned int& current_length, vector<string>& path){
+		
+	cout << "inside search recursion" << endl;
+	//for test
 
 		cell->markVisit();
 		current_length = current_length + 1;
@@ -86,9 +96,16 @@ void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_w
 		{
 			string word_on_path = vecToString(path);
 			if(isInLexicon(word_on_path))
+			{
+				cout << "word in lex!" << endl;
+				cout << word_on_path << endl;
+				//(*words).insert(word_on_path);
 				words->insert(word_on_path);
+				cout << "safe" << endl;
+			}
 			else
 			{
+				//cout << "NOT in lex!" << endl;
 				if(!tr->isPrefix(word_on_path))
 					return;
 			}
@@ -98,6 +115,8 @@ void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_w
 			if(!cell->getNeighbor()[i]->isVisit())				//dfs into unvisited neighbor
 				search(cell->getNeighbor()[i], words, minimum_word_length, current_length, path);
 
+
+	//cout << " after: inside search recursion" << endl;
 		cell->reset();
 		path.pop_back();
 		current_length = current_length - 1;
