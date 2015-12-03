@@ -62,7 +62,7 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 		unsigned int current_length=0;
 		vector<string> path;
 
-		for(int i=0;i<b->getList().size();i++)
+		for(unsigned int i=0;i<b->getList().size();i++)
 		{
 			current_length=0;			//reset before starting from each node on the board
 			path.clear();
@@ -123,7 +123,7 @@ bool BogglePlayer::isInLexicon(const string& word_to_check) {
  */
 vector<int> BogglePlayer::isOnBoard(const string& word) {
          vector<int> result;
-		 int pos=0;
+		 unsigned int pos=0;
 
 		 if(b==0)
 			 return result;								//board not set up yet
@@ -137,7 +137,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word) {
 				 break;
 		 }
 		 */
-		 for(int i=0;i<b->getList().size();i++)
+		 for(unsigned int i=0;i<b->getList().size();i++)
 		 {
 			 if(dfs(b->getList()[i], word, pos, result))
 				 break;
@@ -150,11 +150,11 @@ vector<int> BogglePlayer::isOnBoard(const string& word) {
          return result;
 }
 
-bool BogglePlayer::dfs(Cell* c, const string& word, int& pos, vector<int>& vec){
+bool BogglePlayer::dfs(Cell* c, const string& word, unsigned int& pos, vector<int>& vec){
 
 	string sub_word;
 	string cString = c->getString();
-	int cSize = cString.length();
+	unsigned int cSize = cString.length();
 	if(cSize <= word.length()-pos)
 		sub_word = word.substr(pos, cSize);
 	else

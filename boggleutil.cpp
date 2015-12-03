@@ -2,6 +2,7 @@
 //boggleutil.cpp
 
 #include<iostream>
+#include<algorithm>			//std::transform
 #include"boggleutil.h"
 
 using namespace std;
@@ -61,7 +62,7 @@ Board::Board(unsigned int row, unsigned int col, string** s){
 		{
 			unsigned int indx = col*r+c;
 			//convert the string s[r][c] to lower case
-			std::transform(s[r][c].begin(), s[r][c].end(), s[r][c].begin(), ::tolower);
+			transform(s[r][c].begin(), s[r][c].end(), s[r][c].begin(), ::tolower);
 			Cell* cell = new Cell(indx, s[r][c]);
 			adjList.push_back(cell);					// add the new cell to the graph adjacency list
 		}
@@ -78,13 +79,13 @@ void Board::print(){
 vector<Cell*> Board::getList(){ return adjList;}
 
 void Board::resetVisit(){
-	for(int i=0;i<adjList.size();i++)
+	for(unsigned int i=0;i<adjList.size();i++)
 		adjList[i]->reset();	
 }
 
 void Board::makeEdge(){
-	int size = row * col;
-	for(int i=0;i<size;i++)
+	unsigned int size = row * col;
+	for(unsigned int i=0;i<size;i++)
 	{
 		if(i==0)
 		{
@@ -166,7 +167,7 @@ void Board::makeEdge(){
 }
 
 Board::~Board(){
-	for(int i=0;i<adjList.size();i++)
+	for(unsigned int i=0;i<adjList.size();i++)
 		delete adjList[i];
 }
 
@@ -195,7 +196,7 @@ void Trie::post(Node* n){
 void Trie::insert (string &word){
 	//start with the root
 	Node* current = root;
-	for(int i=0;i<word.length();i++)									//for every letter of the word
+	for(unsigned int i=0;i<word.length();i++)									//for every letter of the word
 	{
 		char c = word[i];
 		if(current->children.find(c) == current->children.end())		//character not exist in the children map
@@ -220,7 +221,7 @@ void Trie::insert (string &word){
 bool Trie::find (string &word){
 	Node* current = root;
 
-	for(int i=0;i<word.length();i++)
+	for(unsigned int i=0;i<word.length();i++)
 	{
 		char c = word[i];
 
@@ -240,7 +241,7 @@ Node* Trie::getRoot(){ return root;}
 bool Trie::isPrefix(string word){
 	Node* current = root;
 
-	for(int i=0;i<word.length();i++)
+	for(unsigned int i=0;i<word.length();i++)
 	{
 		char c = word[i];
 

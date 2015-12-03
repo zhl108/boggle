@@ -34,7 +34,7 @@ class BogglePlayer : public BaseBogglePlayer {
   bool board_up;
   bool trie_up;
   //vector<int> dfs(Cell* c, const string& word);		// helper function for isOnBoard
-  bool dfs(Cell* c, const string& word, int& pos, vector<int>& vec);
+  bool dfs(Cell* c, const string& word, unsigned int& pos, vector<int>& vec);
   void search(Cell* cell, set<string>* words, unsigned int minimum_word_length, unsigned int& current_length, vector<string>& path);
   string vecToString(vector<string> vec);
 };
