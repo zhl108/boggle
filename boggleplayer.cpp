@@ -54,8 +54,60 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
  * 3. from lexicon; 4. meet min length
  */
 bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words) {
+		//return false if either lexicon or the board is not set up yet
+		if(!board_up || !trie_up)
+			return false;
+
+		//start searching
+		unsigned int current_length=0;
+		vector<string> path;
+
+		for(int i=0;i<b->getList().size();i++)
+		{
+			current_length=0;			//reset before starting from each node on the board
+			path.clear();
+			b->resetVisit();
+			search(b->getList()[i], words, minimum_word_length, current_length, path);
+		}
+
         return true;
 }
+
+void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_word_length, unsigned int& current_length, vector<string>& path){
+
+		cell->markVisit();
+		current_length = current_length + 1;
+		path.push_back(cell->getString());
+
+		if(current_length >= minimum_word_length)				//when the string on the path exceed the min length: record it if necessary
+		{
+			string word_on_path = vecToString(path);
+			if(isInLexicon(word_on_path))
+				words->insert(word_on_path);
+			else
+			{
+				if(!tr->isPrefix(word_on_path))
+					return;
+			}
+		}
+
+		for(int i=0;i<cell->nSize();i++)
+			if(!cell->getNeighbor()[i]->isVisit())				//dfs into unvisited neighbor
+				search(cell->getNeighbor()[i], words, minimum_word_length, current_length, path);
+
+		cell->reset();
+		path.pop_back();
+		current_length = current_length - 1;
+}
+
+string BogglePlayer::vecToString(vector<string> vec){
+	string s;
+	for(vector<string>::iterator it=vec.begin(); it != vec.end(); ++it)
+		s.append(*it);
+	return s;
+}
+
+
 
 /** check if word_to_check is in the dictionary builded by buildLexicon() */
 bool BogglePlayer::isInLexicon(const string& word_to_check) {

@@ -151,6 +151,8 @@ int main(int argc, char *argv[])
 	cout << "Testing insert ..." << endl;
 	Trie* tree = new Trie();
 	string t1 = "ab", t2 = "zxy";
+	string a1 = "a", a2 = "zx";
+	string b1 = "abc", b2 = "zxyt";
 	tree->insert(t1);
 	tree->insert(t2);
 
@@ -160,15 +162,34 @@ int main(int argc, char *argv[])
 		cout << "insert fail"<< endl;
 		return -1;
 	}
-	cout << "insert test pass!\nTesing find() ..." << endl;
-	if(!tree->find(t1) || !tree->find(t2))
+	cout << "insert test pass!\nTesting find() ..." << endl;
+	if(!tree->find(t1) || !tree->find(t2) || tree->find(a1) || tree->find(a2) || tree->find(b1) || tree->find(b2))
 	{	
 		cout << "find fail" << endl;
 		return -1;
 	}
-	cout << "find test pass!" << endl << endl;
+	cout << "find test pass!\nTesting isPrefix()" << endl;
+	if(!tree->isPrefix(a1) || !tree->isPrefix(a2) || !tree->isPrefix(t1) || !tree->isPrefix(t2) || tree->isPrefix(b1) || tree->isPrefix(b2))
+	{	
+		cout << "isPrefix fail" << endl;
+		return -1;
+	}
+	cout << "isPrefix test pass!" << endl << endl;
 
 	delete tree;
+	cout << "--------------- my own test ---------------" << endl;
+	vector<string> vec;
+	vec.push_back("one");
+	vec.push_back("two");
+	vec.push_back("three");
+
+	for(vector<string>::iterator it=vec.begin(); it != vec.end(); ++it)
+		cout << *it << endl;
+	string ss;
+	for(vector<string>::iterator it=vec.begin(); it != vec.end(); ++it)
+		ss.append(*it);
+	cout << ss << endl;
+
     return 0;
 }
 

@@ -71,6 +71,7 @@ class Trie{
 
 		void insert (string &word);
 		bool find (string &word); 
+		bool isPrefix(string word);
 		Node* getRoot();		
 		void post(Node* n);
 };

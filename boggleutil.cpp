@@ -236,3 +236,18 @@ bool Trie::find (string &word){
 }
 
 Node* Trie::getRoot(){ return root;}
+
+bool Trie::isPrefix(string word){
+	Node* current = root;
+
+	for(int i=0;i<word.length();i++)
+	{
+		char c = word[i];
+
+		if(current->children.find(c) == current->children.end())	
+			return false;
+		else												
+			current = current->children[c];
+	}	
+	return true;
+}
