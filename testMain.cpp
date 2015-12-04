@@ -260,6 +260,8 @@ int main(int argc, char *argv[])
 	for(int i=0;i<row;++i)
 		sss[i] = new string[col];
 
+
+
 	cout << "board representation: " << endl;
 	for(int r=0;r<20;r++)
 	{
@@ -324,7 +326,6 @@ int main(int argc, char *argv[])
 	{
 		outfile << *it << endl;
 	}
-
 
 	delete ai;
 
