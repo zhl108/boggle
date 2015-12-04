@@ -4,7 +4,6 @@
 #include "boggleplayer.h"
 #include<iostream>
 #include<algorithm>
-#include<set>
 using namespace std;
 
 // before implementing the functions below, note that
@@ -85,7 +84,7 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 
 void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_word_length, unsigned int& current_length, vector<string>& path){
 		
-	cout << "inside search recursion" << endl;
+	cout << "inside search recursion " << cell->getString() << endl;
 	//for test
 
 		cell->markVisit();
@@ -107,7 +106,12 @@ void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_w
 			{
 				//cout << "NOT in lex!" << endl;
 				if(!tr->isPrefix(word_on_path))
+				{
+					cell->reset();
+					path.pop_back();
+					current_length = current_length - 1;
 					return;
+				}
 			}
 		}
 

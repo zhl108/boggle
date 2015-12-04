@@ -311,13 +311,22 @@ int main(int argc, char *argv[])
 	//ai->tr
 	//cout << ai->b->getList().size()<< endl;
 	
-	set<string>* outSet;
-	unsigned int min = 2;
-	ai->getAllValidWords(min, outSet);
+	set<string> outSet;
+	set<string>* outSetPtr = &outSet;
+	unsigned int min = 1;
+	ai->getAllValidWords(min, outSetPtr);
 
+	/*
+	set<string> seet;
+	set<string>* ptr = &seet;
+	cout << (*ptr).size() << endl;
+	(*ptr).insert("first");
+	*/
 
-
-
+	for(set<string>::iterator it=outSet.begin();it!=outSet.end();++it)
+	{
+		outfile << *it << endl;
+	}
 
 
 	delete ai;
