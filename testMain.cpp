@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 	*/
 
 	ifstream infile("brd.txt");
-	ifstream lex("dic.txt");				//TODO:change back to lex.txt
+	ifstream lex("lex.txt");				//TODO:change back to lex.txt
 	ofstream outfile("out.txt");
 
 	if(!infile)
@@ -297,15 +297,17 @@ int main(int argc, char *argv[])
 
 	BogglePlayer* ai = new BogglePlayer();
 
+	/*
 	string str2[2][3] = {
 				{"a","b","c"},
 				{"d","e","f"}
 	};
 
 	string *s2[2] = {str2[0],str2[1]};	
+	*/
 
-	//ai->setBoard(row, col, sss);
-	ai->setBoard(2, 3, s2);
+	ai->setBoard(row, col, sss);
+	//ai->setBoard(2, 3, s2);
 	ai->buildLexicon(dictionary);
 
 	//ai->tr
@@ -313,15 +315,10 @@ int main(int argc, char *argv[])
 	
 	set<string> outSet;
 	set<string>* outSetPtr = &outSet;
-	unsigned int min = 1;
+
+	unsigned int min = 2;
 	ai->getAllValidWords(min, outSetPtr);
 
-	/*
-	set<string> seet;
-	set<string>* ptr = &seet;
-	cout << (*ptr).size() << endl;
-	(*ptr).insert("first");
-	*/
 
 	for(set<string>::iterator it=outSet.begin();it!=outSet.end();++it)
 	{

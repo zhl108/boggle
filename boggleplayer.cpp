@@ -75,7 +75,7 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 			path.clear();
 			b->resetVisit();
 			count+=1;
-			cout << count << " so far so good!" << endl;
+			//cout << count << " so far so good!" << endl;
 			search(b->getList()[i], words, minimum_word_length, current_length, path);
 		}
 
@@ -84,7 +84,7 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
 
 void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_word_length, unsigned int& current_length, vector<string>& path){
 		
-	cout << "inside search recursion " << cell->getString() << endl;
+	//cout << "inside search recursion " << cell->getString() << endl;
 	//for test
 
 		cell->markVisit();
@@ -96,11 +96,11 @@ void BogglePlayer::search(Cell* cell, set<string>* words, unsigned int minimum_w
 			string word_on_path = vecToString(path);
 			if(isInLexicon(word_on_path))
 			{
-				cout << "word in lex!" << endl;
-				cout << word_on_path << endl;
+				//cout << "word in lex!" << endl;
+				//cout << word_on_path << endl;
 				//(*words).insert(word_on_path);
 				words->insert(word_on_path);
-				cout << "safe" << endl;
+				//cout << "safe" << endl;
 			}
 			else
 			{
